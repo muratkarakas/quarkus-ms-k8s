@@ -13,13 +13,16 @@ data:
 ---
 
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
   namespace: cna
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
   template:
     metadata:
       labels:
@@ -27,7 +30,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:10.5
+          image: postgres
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 5432

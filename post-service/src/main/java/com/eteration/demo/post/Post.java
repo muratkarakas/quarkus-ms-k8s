@@ -1,35 +1,20 @@
 package com.eteration.demo.post;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.QueryHint;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "known_posts")
-@NamedQuery(name = "Posts.findAll",
-      query = "SELECT f FROM Post f ORDER BY f.name",
-      hints = @QueryHint(name = "org.hibernate.cacheable", value = "true") )
-@Cacheable
-public class Post {
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
-    @Id
-    @SequenceGenerator(
-            name = "postsSequence",
-            sequenceName = "known_posts_id_seq",
-            allocationSize = 1,
-            initialValue = 10)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "postsSequence")
-    private Integer id;
+@Entity
+@Table(name = "posts")
+public class Post extends PanacheEntity{
+
 
     @Column(length = 40, unique = true)
     private String name;
+
+    private Long userId;
 
     public Post() {
     }
@@ -38,13 +23,6 @@ public class Post {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -53,5 +31,13 @@ public class Post {
     public void setName(String name) {
         this.name = name;
     }
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
 }

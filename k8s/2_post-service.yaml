@@ -14,7 +14,7 @@ data:
 
 
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: post-service
@@ -35,6 +35,26 @@ spec:
       - name: post-service
         image: quarkus-post-service:latest
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: "/health/live"
+            port: 8080
+            scheme: "HTTP"
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: "/health/ready"
+            port: 8080
+            scheme: "HTTP"
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 10  
         envFrom:
             - configMapRef:
                 name: post-service-config      

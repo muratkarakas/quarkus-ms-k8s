@@ -19,7 +19,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    @Inject UserService userService;
 
 	@Inject
     @RestClient
@@ -29,8 +28,10 @@ public class UserResource {
     @GET()
     @Path("/init")
     public List<User> init() {
-        userService.add(new User("Murat","Eteration"));
-        return userService.list();
+        User.persist(new User("1","Murat","Karakas"));
+        User.persist(new User("2","Defne","Karakas"));
+        User.persist(new User("3","Deniz","Karakas"));
+        return list();
     }
 
     @GET()
@@ -38,7 +39,8 @@ public class UserResource {
     public User userDetail(@PathParam("userId") String userId) {
         Collection<Post> posts = postServiceClient.getByUserId(userId);
 
-        User user =  userService.list().get(0);
+
+        User user =  User.find("code", userId).singleResult();
         user.setPosts(posts);
 
         return user;
@@ -46,12 +48,11 @@ public class UserResource {
 
     @GET
     public List<User> list() {
-        return userService.list();
+        return User.findAll().list();
     }
 
     @POST
-    public List<User> add(User fruit) {
-        userService.add(fruit);
-        return list();
+    public void add(User user) {
+        User.persist(user);
     }
 }

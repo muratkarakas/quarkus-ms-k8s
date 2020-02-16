@@ -7,12 +7,14 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<quarkus.version>0.21.1</quarkus.version>
+		<quarkus.version>1.2.0.Final</quarkus.version>
 		<surefire-plugin.version>2.22.1</surefire-plugin.version>
 		<compiler-plugin.version>3.8.0</compiler-plugin.version>
 		<docker-plugin.version>0.28.0</docker-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<dependencyManagement>
@@ -33,20 +35,22 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-jsonb</artifactId>
 		</dependency>
+
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-mongodb-client</artifactId>
+			<artifactId>quarkus-mongodb-panache</artifactId>
 		</dependency>
-   		 <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-client</artifactId>
-        </dependency>
-	
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-client</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy</artifactId>
 		</dependency>
-		
+
 
 		<!-- Testing: -->
 		<dependency>
@@ -98,7 +102,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		<plugin>
+			<plugin>
 				<!-- Automatically start PostgreSQL for integration testing - requires 
 					Docker -->
 				<groupId>io.fabric8</groupId>
@@ -111,11 +115,11 @@
 							<name>mongo</name>
 							<alias>mongo</alias>
 							<run>
-								
+
 								<ports>
 									<port>27017:27017</port>
 								</ports>
-								
+
 								<wait>
 									<tcp>
 										<mode>mapped</mode>
@@ -146,21 +150,12 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>		
+			</plugin>
 		</plugins>
 	</build>
 
 	<profiles>
 
-	<profile>
-        <id>microk8s-quarkus-dev</id>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <properties>
-            <jvm.args>-Dquarkus.http.port=8090</jvm.args>
-        </properties>
-    </profile>
 		<profile>
 			<!-- Optionally activate this profile to compile the demo into native! -->
 			<id>native</id>
@@ -180,9 +175,9 @@
 								<goals>
 									<goal>native-image</goal>
 								</goals>
-								 <configuration>
-                                    <enableHttpUrlHandler>true</enableHttpUrlHandler>
-                                </configuration>
+								<configuration>
+									<enableHttpUrlHandler>true</enableHttpUrlHandler>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -190,6 +185,6 @@
 			</build>
 		</profile>
 
-		
+
 	</profiles>
 </project>

@@ -2,22 +2,28 @@ package com.eteration.demo.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 
-public class User {
+import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.mongodb.panache.PanacheMongoEntity;
 
+@MongoEntity(collection="User")
+public class User extends PanacheMongoEntity {
+
+    private String code;
     private String name;
-    private String description;
-    private String id;
+    private String surname;
     private Collection<Post> posts = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String name, String description) {
+    public User(String code,String name, String surname) {
+        this.code  = code;
         this.name = name;
-        this.description = description;
+        this.surname = surname;
     }
+
+    
 
     public String getName() {
         return name;
@@ -27,38 +33,7 @@ public class User {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof User)) {
-            return false;
-        }
-
-        User other = (User) obj;
-
-        return Objects.equals(other.name, this.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.name);
-    }
-
-	public void setId(String id) {
-        this.id = id;
-	}
-
-	public String getId() {
-		return id;
-	}
-
+   
     public Collection<Post> getPosts() {
         return posts;
     }
@@ -66,4 +41,20 @@ public class User {
     public void setPosts(Collection<Post> posts) {
         this.posts = posts;
     }
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 }
