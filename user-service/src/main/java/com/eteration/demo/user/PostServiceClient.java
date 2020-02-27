@@ -13,10 +13,10 @@ import java.util.ArrayList;
 @RegisterRestClient
 public interface PostServiceClient {
 
-    @GET
-    @Path("/posts/user/{userId}")
-    @Produces("application/json")
-    ArrayList<Post> getByUserId(@PathParam("userId") String userId);
+  @GET
+  @Path("/posts/user/{userId}")
+  @Produces("application/json")
+  ArrayList<Post> getByUserId(@PathParam("userId") String userId);
 
-    
+
 }

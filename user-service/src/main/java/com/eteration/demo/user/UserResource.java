@@ -20,39 +20,39 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class UserResource {
 
 
-	@Inject
-    @RestClient
-    PostServiceClient postServiceClient;
-
-    
-    @GET()
-    @Path("/init")
-    public List<User> init() {
-        User.persist(new User("1","Murat","Karakas"));
-        User.persist(new User("2","Defne","Karakas"));
-        User.persist(new User("3","Deniz","Karakas"));
-        return list();
-    }
-
-    @GET()
-    @Path("/{userId}")
-    public User userDetail(@PathParam("userId") String userId) {
-        Collection<Post> posts = postServiceClient.getByUserId(userId);
+  @Inject
+  @RestClient
+  PostServiceClient postServiceClient;
 
 
-        User user =  User.find("code", userId).singleResult();
-        user.setPosts(posts);
+  @GET()
+  @Path("/init")
+  public List<User> init() {
+    User.persist(new User("1", "Murat", "Karakas"));
+    User.persist(new User("2", "Defne", "Karakas"));
+    User.persist(new User("3", "Deniz", "Karakas"));
+    return list();
+  }
 
-        return user;
-    }
+  @GET()
+  @Path("/{userId}")
+  public User userDetail(@PathParam("userId") String userId) {
+    Collection<Post> posts = postServiceClient.getByUserId(userId);
 
-    @GET
-    public List<User> list() {
-        return User.findAll().list();
-    }
 
-    @POST
-    public void add(User user) {
-        User.persist(user);
-    }
+    User user = User.find("code", userId).singleResult();
+    user.setPosts(posts);
+
+    return user;
+  }
+
+  @GET
+  public List<User> list() {
+    return User.findAll().list();
+  }
+
+  @POST
+  public void add(User user) {
+    User.persist(user);
+  }
 }
