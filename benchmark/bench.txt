@@ -1,0 +1,81 @@
+ab -k -n 10000 -c 50 http://localhost:8080/posts
+
+Server Software:
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /posts
+Document Length:        139 bytes
+
+Concurrency Level:      50
+Time taken for tests:   6.801 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    10000
+Total transferred:      2350000 bytes
+HTML transferred:       1390000 bytes
+Requests per second:    1470.44 [#/sec] (mean)
+Time per request:       34.003 [ms] (mean)
+Time per request:       0.680 [ms] (mean, across all concurrent requests)
+Transfer rate:          337.45 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       3
+Processing:     2   34  28.5     28     413
+Waiting:        2   34  28.5     28     413
+Total:          2   34  28.6     28     415
+
+Percentage of the requests served within a certain time (ms)
+  50%     28
+  66%     35
+  75%     41
+  80%     45
+  90%     58
+  95%     79
+  98%    127
+  99%    145
+ 100%    415 (longest request)
+
+ -------------------------------------------------------
+
+ab -k -n 10000 -c 50 http://localhost:9090/products
+
+
+
+Server Software:
+Server Hostname:        localhost
+Server Port:            9090
+
+Document Path:          /products
+Document Length:        139 bytes
+
+Concurrency Level:      50
+Time taken for tests:   24.871 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    0
+Total transferred:      2440000 bytes
+HTML transferred:       1390000 bytes
+Requests per second:    402.08 [#/sec] (mean)
+Time per request:       124.354 [ms] (mean)
+Time per request:       2.487 [ms] (mean, across all concurrent requests)
+Transfer rate:          95.81 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   2.3      0     220
+Processing:     9  124 100.8     99    1262
+Waiting:        9  112  97.2     89    1262
+Total:          9  124 100.8     99    1263
+
+Percentage of the requests served within a certain time (ms)
+  50%     99
+  66%    120
+  75%    140
+  80%    157
+  90%    234
+  95%    290
+  98%    340
+  99%    374
+ 100%   1263 (longest request)

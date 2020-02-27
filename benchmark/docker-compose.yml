@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  sboot:
+    image: sb-product-service
+    ports:
+      - "9090:9090"
+    networks:
+      - cinet
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
+  
+  quarkus:
+    image: quarkus-post-service
+    ports:
+      - "8080:8080"
+    networks:
+      - cinet
+    depends_on:
+      - db
+  db:
+    image: postgres
+    networks:
+      - cinet
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+networks:
+  cinet:
+    driver: bridge

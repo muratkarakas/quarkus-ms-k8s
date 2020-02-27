@@ -1,0 +1,19 @@
+
+spring:
+  application:
+    name: product-service
+  jpa:
+    show-sql: false
+
+server:
+  port: 9090    
+    
+spring.datasource.platform: postgres
+spring.datasource.url: jdbc:postgresql://${DB_HOST:192.168.0.24}:5432/postgres
+spring.datasource.username:  postgres
+spring.datasource.password:  postgres 
+
+spring.jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+  
