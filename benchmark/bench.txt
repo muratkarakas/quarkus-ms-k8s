@@ -1,4 +1,7 @@
-ab -k -n 10000 -c 50 http://localhost:8080/posts
+Docker-Desktop => 8GB memory  - 4 core CPU
+
+
+quarkus => ab -k -n 10000 -c 50 http://localhost:8080/posts
 
 Server Software:
 Server Hostname:        localhost
@@ -8,38 +11,38 @@ Document Path:          /posts
 Document Length:        139 bytes
 
 Concurrency Level:      50
-Time taken for tests:   6.801 seconds
+Time taken for tests:   4.313 seconds
 Complete requests:      10000
 Failed requests:        0
 Keep-Alive requests:    10000
 Total transferred:      2350000 bytes
 HTML transferred:       1390000 bytes
-Requests per second:    1470.44 [#/sec] (mean)
-Time per request:       34.003 [ms] (mean)
-Time per request:       0.680 [ms] (mean, across all concurrent requests)
-Transfer rate:          337.45 [Kbytes/sec] received
+Requests per second:    2318.74 [#/sec] (mean)
+Time per request:       21.563 [ms] (mean)
+Time per request:       0.431 [ms] (mean, across all concurrent requests)
+Transfer rate:          532.13 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
 Connect:        0    0   0.1      0       3
-Processing:     2   34  28.5     28     413
-Waiting:        2   34  28.5     28     413
-Total:          2   34  28.6     28     415
+Processing:     2   21  14.0     19     131
+Waiting:        2   21  14.0     19     131
+Total:          2   22  14.0     19     131
 
 Percentage of the requests served within a certain time (ms)
-  50%     28
-  66%     35
-  75%     41
-  80%     45
-  90%     58
-  95%     79
-  98%    127
-  99%    145
- 100%    415 (longest request)
+  50%     19
+  66%     24
+  75%     28
+  80%     31
+  90%     39
+  95%     47
+  98%     60
+  99%     70
+ 100%    131 (longest request)
 
  -------------------------------------------------------
 
-ab -k -n 10000 -c 50 http://localhost:9090/products
+spring boot ab -k -n 10000 -c 50 http://localhost:9090/products
 
 
 
@@ -51,31 +54,73 @@ Document Path:          /products
 Document Length:        139 bytes
 
 Concurrency Level:      50
-Time taken for tests:   24.871 seconds
+Time taken for tests:   13.003 seconds
 Complete requests:      10000
 Failed requests:        0
 Keep-Alive requests:    0
 Total transferred:      2440000 bytes
 HTML transferred:       1390000 bytes
-Requests per second:    402.08 [#/sec] (mean)
-Time per request:       124.354 [ms] (mean)
-Time per request:       2.487 [ms] (mean, across all concurrent requests)
-Transfer rate:          95.81 [Kbytes/sec] received
+Requests per second:    769.08 [#/sec] (mean)
+Time per request:       65.013 [ms] (mean)
+Time per request:       1.300 [ms] (mean, across all concurrent requests)
+Transfer rate:          183.26 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   2.3      0     220
-Processing:     9  124 100.8     99    1262
-Waiting:        9  112  97.2     89    1262
-Total:          9  124 100.8     99    1263
+Connect:        0    0   0.3      0      15
+Processing:     4   65  29.3     60     394
+Waiting:        3   61  26.7     57     393
+Total:          4   65  29.3     60     394
 
 Percentage of the requests served within a certain time (ms)
-  50%     99
-  66%    120
-  75%    140
-  80%    157
-  90%    234
-  95%    290
-  98%    340
-  99%    374
- 100%   1263 (longest request)
+  50%     60
+  66%     69
+  75%     75
+  80%     80
+  90%     97
+  95%    116
+  98%    146
+  99%    171
+ 100%    394 (longest request)
+
+
+-------------------------------------------------------
+
+golang  ab -k -n 10000 -c 50 http://localhost:3000/posts
+
+Server Software:
+Server Hostname:        localhost
+Server Port:            3000
+
+Document Path:          /posts
+Document Length:        140 bytes
+
+Concurrency Level:      50
+Time taken for tests:   8.905 seconds
+Complete requests:      10000
+Failed requests:        0
+Keep-Alive requests:    10000
+Total transferred:      2880000 bytes
+HTML transferred:       1400000 bytes
+Requests per second:    1122.96 [#/sec] (mean)
+Time per request:       44.525 [ms] (mean)
+Time per request:       0.891 [ms] (mean, across all concurrent requests)
+Transfer rate:          315.83 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.2      0       5
+Processing:     1   44 100.2      3     438
+Waiting:        1   44 100.2      3     438
+Total:          1   44 100.2      3     438
+
+Percentage of the requests served within a certain time (ms)
+  50%      3
+  66%      4
+  75%      4
+  80%      6
+  90%    263
+  95%    300
+  98%    327
+  99%    344
+ 100%    438 (longest request)

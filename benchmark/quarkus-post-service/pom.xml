@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.eteration.demo</groupId>
-	<artifactId>user-service</artifactId>
+	<artifactId>post-servcie</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
@@ -13,9 +13,8 @@
 		<docker-plugin.version>0.28.0</docker-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<dependencyManagement>
@@ -32,21 +31,29 @@
 
 	<dependencies>
 
+
+		<!-- Hibernate ORM specific dependencies -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-hibernate-orm-panache</artifactId>
+		</dependency>
+
+		<!-- JDBC driver dependencies -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-jdbc-postgresql</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-jsonb</artifactId>
 		</dependency>
 
-
-		<dependency>
+	
+	<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-mongodb-panache</artifactId>
+			<artifactId>quarkus-agroal</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-rest-client</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy</artifactId>
@@ -64,25 +71,11 @@
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<!-- the parameters=true option is critical so that RESTEasy works fine -->
-					<parameters>true</parameters>
-				</configuration>
-			</plugin>
-			<plugin>
-				<!-- you need this specific version to integrate with the other build 
-					helpers -->
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire-plugin.version}</version>
 				<configuration>
@@ -92,7 +85,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<!-- This is what injects the magic Quarkus bytecode -->
 				<groupId>io.quarkus</groupId>
 				<artifactId>quarkus-maven-plugin</artifactId>
 				<version>${quarkus.version}</version>
@@ -100,54 +92,6 @@
 					<execution>
 						<goals>
 							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>1.27.0</version>
-				<configuration>
-					<java>
-						<eclipse>
-							<file>${basedir}/config/eclipse-java-style.xml</file>
-						</eclipse>
-					</java>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.1</version>
-				<configuration>
-					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
-					<encoding>UTF-8</encoding>
-					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
-					<linkXRef>false</linkXRef>
-				</configuration>
-				<executions>
-					<execution>
-						<id>validate</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.owasp</groupId>
-				<artifactId>dependency-check-maven</artifactId>
-				<configuration>
-					<failBuildOnCVSS>15</failBuildOnCVSS>
-					<formats>XML,HTML,JSON</formats>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -162,19 +106,27 @@
 					<skip>${skipTests}</skip>
 					<images>
 						<image>
-							<name>mongo</name>
-							<alias>mongo</alias>
+							<name>postgres:latest</name>
+							<alias>postgresql</alias>
 							<run>
-
+								<env>
+									<POSTGRES_USER>postgres</POSTGRES_USER>
+									<POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>
+									<POSTGRES_DB>postgres</POSTGRES_DB>
+								</env>
 								<ports>
-									<port>27017:27017</port>
+									<port>5432:5432</port>
 								</ports>
-
+								<log>
+									<prefix>PostgreSQL: </prefix>
+									<date>default</date>
+									<color>cyan</color>
+								</log>
 								<wait>
 									<tcp>
 										<mode>mapped</mode>
 										<ports>
-											<port>27017</port>
+											<port>5432</port>
 										</ports>
 									</tcp>
 									<time>10000</time>
@@ -205,7 +157,6 @@
 	</build>
 
 	<profiles>
-
 		<profile>
 			<!-- Optionally activate this profile to compile the demo into native! -->
 			<id>native</id>
@@ -225,16 +176,12 @@
 								<goals>
 									<goal>native-image</goal>
 								</goals>
-								<configuration>
-									<enableHttpUrlHandler>true</enableHttpUrlHandler>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
-
 
 	</profiles>
 </project>

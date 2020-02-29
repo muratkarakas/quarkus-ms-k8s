@@ -16,6 +16,17 @@ public class Post extends PanacheEntity{
     @Column(name="user_id")
     private Long userId;
 
+    
+    
+    
+    
+    public Post(Long  id ,String name, Long userId) {
+      super();
+      this.name = name;
+      this.userId = userId;
+      super.id =  id;
+    }
+
     public Post() {
     }
 

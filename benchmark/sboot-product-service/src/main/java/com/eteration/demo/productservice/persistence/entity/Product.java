@@ -1,5 +1,6 @@
 package com.eteration.demo.productservice.persistence.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,6 +15,7 @@ public class Product {
 
   private String name;
 
+  @Column(name="user_id")
   private Long userId;
 
   public String getName() {
@@ -23,7 +25,6 @@ public class Product {
   public void setName(String name) {
     this.name = name;
   }
-
   public Long getUserId() {
     return userId;
   }

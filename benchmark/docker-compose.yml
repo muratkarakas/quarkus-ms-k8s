@@ -11,7 +11,19 @@ services:
       - DB_HOST=db
     depends_on:
       - db
-  
+
+  go:
+    image: go-post-service
+    ports:
+      - "3000:3000"
+    networks:
+      - cinet
+    environment:
+      - DB_HOST=db
+      - GIN_MODE=release
+    depends_on:
+      - db
+
   quarkus:
     image: quarkus-post-service
     ports:
@@ -22,6 +34,8 @@ services:
       - db
   db:
     image: postgres
+    ports:
+      - "5432:5432"    
     networks:
       - cinet
     environment:
