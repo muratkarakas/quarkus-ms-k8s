@@ -10,9 +10,9 @@
 		<relativePath />
 	</parent>
 	<groupId>eteration.demo</groupId>
-	<artifactId>product-service</artifactId>
+	<artifactId>sb-product-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>product-service</name>
+	<name>sb-product-service</name>
 
 	<properties>
 		<java.version>1.8</java.version>

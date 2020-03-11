@@ -5,5 +5,5 @@ RUN apk add --update \
 
 RUN apk --no-cache add curl   
 
-ADD maven/product-service-0.0.1-SNAPSHOT.jar app.jar
+ADD maven/sb-product-service-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
