@@ -24,6 +24,15 @@ services:
     depends_on:
       - db
 
+  rquarkus:
+    image: quarkus-reactive-post-service
+    ports:
+      - "8080:8080"
+    networks:
+      - cinet
+    depends_on:
+      - db
+
   quarkus:
     image: quarkus-post-service
     ports:
