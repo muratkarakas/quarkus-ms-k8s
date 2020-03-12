@@ -13,3 +13,9 @@ docker run -d --name jaeger \
   docker  run -d -p 27017:27017  mongo
 
   docker  run -d  -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust  postgres
+
+
+  docker run -p 8161:8161 -p 61616:61616 -p 5672:5672  -e  ARTEMIS_USERNAME=quarkus -e  ARTEMIS_PASSWORD=quarkus vromero/activemq-artemis:2.9.0-alpine
+
+
+  docker run  -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.6.1

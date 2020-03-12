@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: post-service-config
+  name: post-query-service-config
   namespace: cna
   labels:
-    app: post-service-config
+    app: postgres
 data:
-  QUARKUS_DATASOURCE_URL: jdbc:postgresql://postgres/postgres
-  MP_MESSAGING_OUTGOING_POST_CREATE_HOST: amq
+  ELASTICSEARCH_HOST: elasticsearch
+  ELASTICSEARCH_PORT: "9200"
+  MP_MESSAGING_INCOMING_POST_READ_HOST: amq
+
 
 ---
 
@@ -16,34 +18,34 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-service
+  name: post-query-service
   namespace: cna
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: post-service
+      app: post-query-service
       version: v1
   template:
     metadata:
       labels:
-        app: post-service
+        app: post-query-service
         version: v1
     spec:
       initContainers:
       - name: check-amq-ready
         image: busybox
         command: ['sh', '-c', 
-          'while ! `nc -z amq 5672`; do sleep 3; done']       
+          'while ! `nc -z amq 5672`; do sleep 3; done']    
       containers:
-      - name: post-service
-        image: quarkus-post-service:latest
+      - name: post-query-service
+        image: quarkus-post-query-service:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
           httpGet:
             path: "/health/live"
-            port: 8080
+            port: 8070
             scheme: "HTTP"
           initialDelaySeconds: 0
           periodSeconds: 30
@@ -53,7 +55,7 @@ spec:
           failureThreshold: 3
           httpGet:
             path: "/health/ready"
-            port: 8080
+            port: 8070
             scheme: "HTTP"
           initialDelaySeconds: 0
           periodSeconds: 30
@@ -61,9 +63,9 @@ spec:
           timeoutSeconds: 10  
         envFrom:
             - configMapRef:
-                name: post-service-config      
+                name: post-query-service-config      
         ports:
-        - containerPort: 8080
+        - containerPort: 8070
           protocol: TCP
         resources:
            limits:
@@ -74,14 +76,14 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: post-service
+  name: post-query-service
   namespace: cna
 spec:
   type: NodePort
   selector:
-    app: post-service
+    app: post-query-service
   ports:
   - protocol: TCP
-    port: 8080
-    targetPort: 8080
-    nodePort: 32080
+    port: 8070
+    targetPort: 8070
+    nodePort: 32070

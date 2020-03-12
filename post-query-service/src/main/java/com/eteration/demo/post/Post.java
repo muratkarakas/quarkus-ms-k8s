@@ -1,19 +1,10 @@
 package com.eteration.demo.post;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+public class Post{
 
-@Entity
-@Table(name = "posts")
-public class Post extends PanacheEntity{
-
-
-    @Column(length = 40, unique = true)
+    private long id;
     private String name;
-    @Column(name="user_id")
     private Long userId;
 
     public Post() {
@@ -38,6 +29,14 @@ public class Post extends PanacheEntity{
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

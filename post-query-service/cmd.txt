@@ -1,0 +1,57 @@
+docker run  -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.6.1
+
+./mvnw quarkus:dev
+
+
+
+
+
+curl -X PUT "http://localhost:9200/posts"
+
+
+curl -X POST "http://localhost:9200/posts/_search?pretty"
+
+
+curl -X POST "http://localhost:9200/posts/_doc/" -H 'Content-Type: application/json' -d'
+{
+   "name":"hello world"
+}
+'
+
+
+
+curl -X POST "http://localhost:9200/posts/_doc/" -H 'Content-Type: application/json' -d'
+{
+   "name":"hola world"
+}
+'
+
+
+
+curl -X POST "http://localhost:9200/posts/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "bool" : {
+            "filter" : {
+                "term" : { "name" : "hola" }
+            }
+        }
+    }
+}
+'
+
+
+
+
+
+curl -X POST "http://localhost:9200/posts/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "wildcard": {
+            "name": {
+                "value": "ho*"
+            }
+        }
+    }
+}
+'

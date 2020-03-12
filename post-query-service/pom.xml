@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.eteration.demo</groupId>
-	<artifactId>post-servcie</artifactId>
+	<artifactId>post-query-servcie</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
@@ -28,43 +28,29 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Hibernate ORM specific dependencies -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-hibernate-orm-panache</artifactId>
+			<artifactId>quarkus-elasticsearch-rest-client</artifactId>
 		</dependency>
 
-		<!-- JDBC driver dependencies -->
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-jdbc-postgresql</artifactId>
-		</dependency>
 
 		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-smallrye-fault-tolerance</artifactId>
-		</dependency>
+		<groupId>io.quarkus</groupId>
+		<artifactId>quarkus-smallrye-reactive-messaging-amqp</artifactId>
+		</dependency>	
 
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-jsonb</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-kubernetes</artifactId>
-		</dependency>
+	
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-opentracing</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>io.opentracing.contrib</groupId>
-			<artifactId>opentracing-jdbc</artifactId>
-		</dependency>
-
-
+	
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-health</artifactId>
@@ -80,20 +66,12 @@
 			<artifactId>quarkus-smallrye-metrics</artifactId>
 		</dependency>
 
-
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-agroal</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy</artifactId>
 		</dependency>
 
-		<dependency>
-		<groupId>io.quarkus</groupId>
-		<artifactId>quarkus-smallrye-reactive-messaging-amqp</artifactId>
-		</dependency>
+
 		<!-- Testing: -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -140,98 +118,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<!-- Automatically start PostgreSQL for integration testing - requires 
-					Docker -->
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>${docker-plugin.version}</version>
-				<configuration>
-					<skip>${skipTests}</skip>
-					<images>
-						<image>
-							<name>postgres:latest</name>
-							<alias>postgresql</alias>
-							<run>
-								<env>
-									<POSTGRES_USER>postgres</POSTGRES_USER>
-									<POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>
-									<POSTGRES_DB>postgres</POSTGRES_DB>
-								</env>
-								<ports>
-									<port>5432:5432</port>
-								</ports>
-								<log>
-									<prefix>PostgreSQL: </prefix>
-									<date>default</date>
-									<color>cyan</color>
-								</log>
-								<wait>
-									<tcp>
-										<mode>mapped</mode>
-										<ports>
-											<port>5432</port>
-										</ports>
-									</tcp>
-									<time>10000</time>
-								</wait>
-							</run>
-						</image>
-					</images>
-				</configuration>
-				<executions>
-					<execution>
-						<id>docker-start</id>
-						<phase>test-compile</phase>
-						<goals>
-							<goal>stop</goal>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>docker-stop</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>io.fabric8</groupId>
-										<artifactId>
-											docker-maven-plugin
-										</artifactId>
-										<versionRange>
-											[0.28.0,)
-										</versionRange>
-										<goals>
-											<goal>start</goal>
-											<goal>stop</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
 	<profiles>

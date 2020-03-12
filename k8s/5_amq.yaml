@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: amq-config
+  namespace: cna
+  labels:
+    app: amq
+data:
+  ARTEMIS_USERNAME: quarkus
+  ARTEMIS_PASSWORD: quarkus
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amq
+  namespace: cna
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amq
+  template:
+    metadata:
+      labels:
+        app: amq
+    spec:
+      containers:
+        - name: amq
+          image: vromero/activemq-artemis:2.9.0-alpine
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8161
+            - containerPort: 61616
+            - containerPort: 5672
+          envFrom:
+            - configMapRef:
+                name: amq-config
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: amq
+  namespace: cna
+  labels:
+    app: amq
+spec:
+  ports:
+   - name: "8161"
+     targetPort: 8161 
+     port: 8161
+   - name: "61616"
+     targetPort: 61616 
+     port: 61616
+   - name: "5672"
+     targetPort: 5672 
+     port: 5672          
+  selector:
+   app: amq

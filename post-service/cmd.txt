@@ -1,4 +1,28 @@
-docker  run -d -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust  postgres
-
-
 ./mvnw quarkus:dev
+
+
+
+
+
+curl --location --request POST 'http://localhost:8080/posts' \
+--header 'Content-Type: application/json' \
+--data-raw '{"name":"GoLang","userId":3}'
+
+
+curl --location --request POST 'http://localhost:8080/posts' \
+--header 'Content-Type: application/json' \
+--data-raw '{"name":"HTML","userId":3}'
+
+
+curl --location --request POST 'http://localhost:8080/posts' \
+--header 'Content-Type: application/json' \
+--data-raw '{"name":"React","userId":2}'
+
+
+
+curl --location --request POST 'http://localhost:8080/posts' \
+--header 'Content-Type: application/json' \
+--data-raw '{"name":"Quarkus","userId":1}'
+
+
+
