@@ -11,7 +11,6 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 public class Post extends PanacheEntity{
 
 
-    @Column(length = 40, unique = true)
     private String name;
     @Column(name="user_id")
     private Long userId;
