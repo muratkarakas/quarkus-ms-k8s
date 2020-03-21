@@ -1,4 +1,4 @@
-FROM cescoffier/native-base:latest
+FROM registry.access.redhat.com/ubi8/ubi-minimal
 WORKDIR /work/
 COPY target/*-runner /work/application
 EXPOSE 8090
