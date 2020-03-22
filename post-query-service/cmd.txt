@@ -55,3 +55,6 @@ curl -X POST "http://localhost:9200/posts/_search?pretty" -H 'Content-Type: appl
     }
 }
 '
+
+
+curl http://localhost:32070/posts/search/go

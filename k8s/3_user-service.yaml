@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: quarkus-user-service:latest
+        image: mkarakas/quarkus-user-service:latest
         imagePullPolicy: IfNotPresent
         envFrom:
             - configMapRef:

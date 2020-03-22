@@ -37,7 +37,7 @@ spec:
           'while ! `nc -z amq 5672`; do sleep 3; done']       
       containers:
       - name: post-service
-        image: quarkus-post-service:latest
+        image: mkarakas/quarkus-post-service:latest
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
